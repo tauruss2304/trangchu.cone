@@ -37,6 +37,15 @@
       border-bottom: 3px solid #00994d;
     }
 
+    .menu-toggle {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #004d26;
+    }
+
     .banner {
       background-image: url("assets/banner1.png");
       background-size: cover;
@@ -61,7 +70,9 @@
         opacity: 1;
         transform: translateY(0);
       }
+
     }
+
 
     @keyframes fadeOut {
       from {
@@ -71,6 +82,17 @@
       to {
         opacity: 0;
       }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .banner h1 {
@@ -87,6 +109,44 @@
       .banner h1 {
         font-size: 40px;
         padding: 15px 20px;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+
+      .products {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 20px;
+        right: 40px;
+      }
+
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+        display: none;
+        width: 100%;
+        margin-top: 10px;
+      }
+
+      nav.show {
+        display: flex;
       }
     }
 
@@ -412,12 +472,42 @@
       color: green;
       font-weight: bold;
     }
+
+    .timeline-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-carousel {
+      display: flex;
+      gap: 20px;
+      animation: slideImages 15s linear infinite;
+      margin-top: 20px;
+    }
+
+    .timeline-carousel img {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    @keyframes slideImages {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-100%);
+      }
+    }
   </style>
 </head>
 
 <body>
   <header>
     <img src="assets/logo1.png" alt="Logo Cốm Nén" style="height: 100px;">
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     <nav>
       <a href="#" onclick="setActive(this)">TRANG CHỦ</a>
       <a href="https://tauruss2304.github.io/gioithieucoom/" onclick="setActive(this)">GIỚI THIỆU</a>
@@ -430,6 +520,29 @@
   <div class="banner">
     <h1>CỐM NÉN </h1>
   </div>
+  <section class="timeline-section"
+    style="background-color: #e6f4ec; padding: 40px 20px; border-radius: 12px; animation: fadeInUp 1.2s ease-out;">
+    <h2 style="color: #004d26">CÂU CHUYỆN TRUYỀN THÔNG</h2>
+    <p>Giữa lòng phố cổ Hà Nội, mỗi mùa thu về là từng hạt cốm xanh lại thoảng hương theo gió, gợi nhắc về những ký ức
+      xưa cũ của người Hà Thành. Cốm – không chỉ là món ăn, mà là biểu tượng của một nền văn hóa trân quý, một sự kết
+      nối giữa quá khứ và hiện tại.</p>
+    <p>Ngày nay, giữa nhịp sống hiện đại, <strong>Cốm Nén</strong> ra đời với mong muốn gìn giữ nét đẹp truyền thống đó,
+      nhưng đồng thời thổi vào nó làn gió mới: hiện đại, tiện lợi và gần gũi hơn với mọi người. Mỗi viên cốm là một câu
+      chuyện kể, một ký ức được gìn giữ, mang màu xanh nhạt như chính sắc thu Hà Nội, dịu dàng mà sâu lắng.</p>
+
+      <div class="timeline-carousel" style="justify-content: center; align-items: center; padding: 20px 0;">
+        <div style="flex: 1; text-align: center;">
+          <img src="assets/comhanoi.jpg" alt="Phố cổ Hà Nội" style="width: 100%; max-width: 300px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        </div>
+        <div style="flex: 1; text-align: center;">
+          <img src="assets/comlangvong.jpg" alt="Cốm làng Vòng" style="width: 100%; max-width: 300px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        </div>
+        <div style="flex: 1; text-align: center;">
+          <img src="assets/ganhcomxua.jpg" alt="Gánh cốm xưa" style="width: 100%; max-width: 300px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        </div>
+      </div>
+  </section>
+
 
   <div class="content">
     <div class="section">
@@ -571,7 +684,22 @@
       orderSuccess.textContent = 'Đặt hàng thành công';
       orderSuccess.style.animation = 'fadeOut 2s ease-out 2s forwards';
     }
+    function toggleMenu() {
+      const nav = document.getElementById("menu");
+      nav.classList.toggle("show");
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+        }
+      });
+    }, { threshold: 0.1 });
 
+    document.querySelectorAll('section').forEach(section => {
+      section.classList.add('reveal');
+      observer.observe(section);
+    });
   </script>
 </body>
 
