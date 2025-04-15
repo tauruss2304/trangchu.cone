@@ -520,6 +520,73 @@
     .dropdown a:hover {
       background-color: #d4e8da;
     }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background-color: transparent;
+      font-family: 'Georgia', serif;
+    }
+
+    /* Logo */
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      color: #1c3b27;
+    }
+
+    /* Menu styles */
+    #menu {
+      display: flex;
+      gap: 40px;
+    }
+
+    #menu a {
+      text-decoration: none;
+      color: #1c3b27;
+      font-size: 18px;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+    }
+
+    #menu a:hover {
+      color: #5d8b4f;
+    }
+
+    /* Toggle button */
+    #menu-toggle {
+      display: none;
+      font-size: 28px;
+      background: none;
+      border: none;
+      color: #1c3b27;
+      cursor: pointer;
+    }
+
+    /* Responsive for mobile */
+    @media (max-width: 768px) {
+      #menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        right: 20px;
+        background-color: #f0f0e6;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      #menu.show {
+        display: flex;
+      }
+
+      #menu-toggle {
+        display: block;
+      }
+    }
   </style>
 </head>
 
@@ -721,6 +788,12 @@
     document.querySelectorAll('section').forEach(section => {
       section.classList.add('reveal');
       observer.observe(section);
+    });
+    const toggle = document.getElementById('menu-toggle');
+    const menu = document.getElementById('menu');
+
+    toggle.addEventListener('click', () => {
+      menu.classList.toggle('show');
     });
   </script>
 </body>
